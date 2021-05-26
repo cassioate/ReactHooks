@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo} from 'react'
+import React, {useState, useEffect, useMemo, useCallback} from 'react'
 
 function App() {
 
@@ -9,10 +9,18 @@ function App() {
 
     const [newTech, setNewTech] = useState('')
 
-    function handleAdd(){
+    /** "useCallBack" é utilizado para diminuir o gasto de memoria, 
+     * pois as functions são geradas do 0 toda vez que a pagina é renderizada,
+     * se a função vai mexer com um "state", então é melhor que ela utilize callback, 
+     * para ser geradas apenas quando o estado for alterado, evitando gasto
+     * densecessario de memoria, no exemplo abaixo, a função só vai ser 
+     * gerada quando "techs" e "newTech" for alterado, ambos "Techs" e "newTechs"
+     * tem que ser passado como segundo parametro no callback
+     */
+    const handleAdd = useCallback(() =>{
         setTechs([...techs, newTech])
         setNewTech('')
-    }
+    }, [techs, newTech] )
 
     /** Se utilizado dessa forma, com o array vazio após a função, 
      * ele irá executar apenas ao iniciar a aplicação, depois não 
