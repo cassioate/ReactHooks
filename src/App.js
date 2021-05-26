@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 
 function App() {
 
@@ -13,6 +13,23 @@ function App() {
         setTechs([...techs, newTech])
         setNewTech('')
     }
+
+    /** Se utilizado dessa forma, com o array vazio após a função, 
+     *  ele irá executar apenas ao iniciar a aplicação, depois não 
+     *  irá mais fazer nada */
+    useEffect(()=>{
+        console.log('Executei no inicio')
+    }, [])
+
+    /**
+     *  Substitui as didmount functions, na inicialização e depois
+     *  toda vez que o techs for alterado ele vai chamar a função 
+     *  que eu passar dentro do useEffect como primeiro parametro
+     */
+    useEffect(() => {
+        localStorage.setItem('techs', JSON.stringify(techs))
+    }, [techs])
+    // OBS: Está salvando a lista no localStorage do browser (inspencionar elemento/Application/LocalStorage/localhost:3000)
 
     return (
         <>
